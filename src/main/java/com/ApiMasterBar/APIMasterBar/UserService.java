@@ -44,12 +44,12 @@ public class UserService {
         DETAILSDESSERTS = detailsdesserts;
     }
 
-    @GetMapping
+
     public List<DetallesBebidas> getDetallesBebidas(){
         return DETAILSDRINKSORDERS.findAll();
     }
 
-    @GetMapping
+
     public List<DetallesBebidas> getDetalleBebida(int id_pedido){
         List<DetallesBebidas> list = DETAILSDRINKSORDERS.findAll();
         List<DetallesBebidas> listaBuena = new ArrayList<>();
@@ -62,12 +62,12 @@ public class UserService {
 
     }
 
-    @GetMapping
+
     public List<DetallesEntrantes> getDetallesEntrantes(){
         return DETAILSAPPETIZERS.findAll();
     }
 
-    @GetMapping
+
     public List<DetallesEntrantes> getDetallesEntrante(int id_pedido){
         List<DetallesEntrantes> list = DETAILSAPPETIZERS.findAll();
         List<DetallesEntrantes> listaBuena = new ArrayList<>();
@@ -79,12 +79,12 @@ public class UserService {
         return listaBuena;
     }
 
-    @GetMapping
+
     public List<DetallesPlatos> getDetallesPlatos(){
         return DETAILSDISHES.findAll();
     }
 
-    @GetMapping
+
     public List<DetallesPlatos> getDetallePlato(int id_pedido){
         List<DetallesPlatos> list = DETAILSDISHES.findAll();
         List<DetallesPlatos> listaBuena = new ArrayList<>();
@@ -96,12 +96,12 @@ public class UserService {
         return listaBuena;
     }
 
-    @GetMapping
+
     public List<DetallesPostres> getDetallesPostres(){
         return DETAILSDESSERTS.findAll();
     }
 
-    @GetMapping
+
     public List<DetallesPostres> getDetallesPostre(int id_pedido){
         List<DetallesPostres> list = DETAILSDESSERTS.findAll();
         List<DetallesPostres> listaBuena = new ArrayList<>();
@@ -113,16 +113,16 @@ public class UserService {
         return listaBuena;
     }
 
-    @GetMapping
+
     public List<Mesa> getTables(){
         return TABLEREPOSITORY.findAll();
     }
-    @GetMapping
+
     public Mesa getMesa(int id){
         return TABLEREPOSITORY.findAll().stream().filter(t->t.getId() == id).findFirst().get();
     }
 
-    @GetMapping
+
     public List<Pedido> getOrders(){
         return ORDERREPOSITORY.findAll();
     }
@@ -130,53 +130,53 @@ public class UserService {
     public Pedido getOrder(int id){
         return ORDERREPOSITORY.findAll().stream().filter(t -> t.getId() == id).findFirst().get();
     }
-    @GetMapping
+
     public List<Personal> getEmployees(){
         return EMPLOYEEREPOSITORY.findAll();
     }
-    @GetMapping
+
     public Personal getEmployee(String dni){
         return EMPLOYEEREPOSITORY.findAll().stream().filter(t->t.getDni().equals(dni)).findFirst().get();
     }
-    @GetMapping
+
     public List<Usuario> getUsers(){
         return USERREPOSITORY.findAll();
     }
-    @GetMapping
+
     public List<Bebida> getBebidas(){
         return DRINKREPOSITORY.findAll();
     }
-    @GetMapping
+
     public List<Entrante> getEntrantes(){
         return APPETIZERREPOSITORY.findAll();
     }
-    @GetMapping
+
     public List<Plato> getPlatos(){
         return DISHREPOSITORY.findAll();
     }
-    @GetMapping
+
     public List<Postre> getPostres(){
         return DESSERREPOSITORY.findAll();
     }
 
-    @GetMapping
+
     public Usuario getUser(String dni){
         return getUsers().stream().filter(t -> t.getDni().equals(dni)).findFirst().get();
     }
 
-    @GetMapping
+
     public Bebida getBebida(int id){
         return getBebidas().stream().filter(t -> t.getId() == id).findFirst().get();
     }
-    @GetMapping
+
     public Entrante getEntrante(int id){
         return getEntrantes().stream().filter(t -> t.getId() == id).findFirst().get();
     }
-    @GetMapping
+
     public Plato getPlato(int id){
         return getPlatos().stream().filter(t -> t.getId() == id).findFirst().get();
     }
-    @GetMapping
+
     public Postre getPostre(int id){
         return getPostres().stream().filter(t -> t.getId() == id).findFirst().get();
     }
