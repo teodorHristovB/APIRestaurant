@@ -218,4 +218,11 @@ public class UserService {
     public void deleteTable(Mesa mesa){
         TABLEREPOSITORY.delete(mesa);
     }
+
+    public void actualizarEstado(Pedido pedido, int id) {
+        Pedido viejoPedido = getOrders().stream().filter(t -> t.getId() == id).findFirst().get();
+        Pedido nuevoPedido = pedido;
+        nuevoPedido.setPrecio_total(viejoPedido.getPrecio_total());
+        ORDERREPOSITORY.save(nuevoPedido);
+    }
 }

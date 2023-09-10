@@ -165,4 +165,8 @@ public class UserController {
         USERSERVICE.deleteTable(mesa);
     }
 
+    @PutMapping("apiMB/orders/{id}")
+    public void actualizarPedido(@RequestBody Pedido estado, @PathVariable int id){
+        USERSERVICE.actualizarEstado(estado, id);
+    }
 }
