@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -29,7 +30,12 @@ public class UserService {
     private final DetailsDesserts DETAILSDESSERTS;
 
     @Autowired
-    public UserService(UserRepository userrepository, DrinksRepository drinkrepository, AppetizerRepository appetizerrepository, DishRepository dishrepository, DessertRepository desserrepository, EmployeeRepository employeerepository, TableRepository tablerepository, OrdersRepository orderrepository, DetailsDrinksOrders detailsdrinksorders, DetailsAppetizers detailsappetizers, DetailsDishes detailsdishes, DetailsDesserts detailsdesserts) {
+    public UserService(UserRepository userrepository, DrinksRepository drinkrepository,
+                       AppetizerRepository appetizerrepository, DishRepository dishrepository,
+                       DessertRepository desserrepository, EmployeeRepository employeerepository,
+                       TableRepository tablerepository, OrdersRepository orderrepository,
+                       DetailsDrinksOrders detailsdrinksorders, DetailsAppetizers detailsappetizers,
+                       DetailsDishes detailsdishes, DetailsDesserts detailsdesserts) {
         USERREPOSITORY = userrepository;
         DRINKREPOSITORY = drinkrepository;
         APPETIZERREPOSITORY = appetizerrepository;
@@ -53,11 +59,18 @@ public class UserService {
     public List<DetallesBebidas> getDetalleBebida(int id_pedido){
         List<DetallesBebidas> list = DETAILSDRINKSORDERS.findAll();
         List<DetallesBebidas> listaBuena = new ArrayList<>();
+        list.forEach(n -> {
+            if(n.getId_pedido() == id_pedido){
+                listaBuena.add(n);
+            }
+        });
+        /*
+        List<DetallesBebidas> listaBuena = new ArrayList<>();
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getId_pedido() == id_pedido){
                 listaBuena.add(list.get(i));
             }
-        }
+        }*/
         return listaBuena;
 
     }
@@ -71,11 +84,18 @@ public class UserService {
     public List<DetallesEntrantes> getDetallesEntrante(int id_pedido){
         List<DetallesEntrantes> list = DETAILSAPPETIZERS.findAll();
         List<DetallesEntrantes> listaBuena = new ArrayList<>();
+        list.forEach(n -> {
+            if(n.getId_pedido() == id_pedido){
+                listaBuena.add(n);
+            }
+        });
+        /*
+        List<DetallesEntrantes> listaBuena = new ArrayList<>();
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getId_pedido() == id_pedido){
                 listaBuena.add(list.get(i));
             }
-        }
+        }*/
         return listaBuena;
     }
 
@@ -88,11 +108,18 @@ public class UserService {
     public List<DetallesPlatos> getDetallePlato(int id_pedido){
         List<DetallesPlatos> list = DETAILSDISHES.findAll();
         List<DetallesPlatos> listaBuena = new ArrayList<>();
+        list.forEach(n -> {
+            if(n.getId_pedido() == id_pedido){
+                listaBuena.add(n);
+            }
+        });
+        /*
+        List<DetallesPlatos> listaBuena = new ArrayList<>();
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getId_pedido() == id_pedido){
                 listaBuena.add(list.get(i));
             }
-        }
+        }*/
         return listaBuena;
     }
 
@@ -105,11 +132,18 @@ public class UserService {
     public List<DetallesPostres> getDetallesPostre(int id_pedido){
         List<DetallesPostres> list = DETAILSDESSERTS.findAll();
         List<DetallesPostres> listaBuena = new ArrayList<>();
+        list.forEach(n -> {
+            if(n.getId_pedido() == id_pedido){
+                listaBuena.add(n);
+            }
+        });
+        /*
+        List<DetallesPostres> listaBuena = new ArrayList<>();
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getId_pedido() == id_pedido){
                 listaBuena.add(list.get(i));
             }
-        }
+        }*/
         return listaBuena;
     }
 
@@ -183,19 +217,21 @@ public class UserService {
 
 
     public void addOrder(Pedido p) {
-        System.out.println(p);
-        Pedido pedido = new Pedido();
-        pedido.setId(p.getId());
-        pedido.setEstado(p.getEstado());
-        pedido.setMesa(p.getMesa());
-        pedido.setFecha(p.getFecha());
-        pedido.setDniPersonal(p.getDniPersonal());
-        pedido.setPrecio_total(p.getPrecio_total());
-        ORDERREPOSITORY.save(p);
+
+        int id = p.getId();
+        Optional<Pedido> existingEntity = ORDERREPOSITORY.findById(id);
+
+        if (existingEntity.isPresent()) {
+            throw new IllegalArgumentException("El registro con el ID " + id + " ya existe, no se puede crear un nuevo pedido con ese ID");
+        } else {
+            ORDERREPOSITORY.save(p);
+        }
+
     }
 
     public void addDetailDrink(DetallesBebidas bebidas){
-            DETAILSDRINKSORDERS.save(bebidas);
+
+        DETAILSDRINKSORDERS.save(bebidas);
     }
 
     public void addDetailAppetizer(DetallesEntrantes entrante){
@@ -210,7 +246,6 @@ public class UserService {
         DETAILSDESSERTS.save(postre);
     }
 
-
     public void addTable(Mesa mesa){
         TABLEREPOSITORY.save(mesa);
     }
@@ -219,10 +254,7 @@ public class UserService {
         TABLEREPOSITORY.delete(mesa);
     }
 
-    public void actualizarEstado(Pedido pedido, int id) {
-        Pedido viejoPedido = getOrders().stream().filter(t -> t.getId() == id).findFirst().get();
-        Pedido nuevoPedido = pedido;
-        nuevoPedido.setPrecio_total(viejoPedido.getPrecio_total());
-        ORDERREPOSITORY.save(nuevoPedido);
+    public void actualizarEstado(Pedido pedido) {
+        ORDERREPOSITORY.save(pedido);
     }
 }
