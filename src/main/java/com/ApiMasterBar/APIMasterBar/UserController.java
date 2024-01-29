@@ -9,7 +9,6 @@ import java.util.List;
 @RestController
 public class UserController {
 
-
     private final UserService USERSERVICE;
 
 
@@ -178,7 +177,7 @@ public class UserController {
         USERSERVICE.deleteTable(mesa);
     }
 
-    @PutMapping("apiMB/orders")
+    @PutMapping("apiMB/orders/{id}")
     public Pedido CrearOactualizarPedido(@RequestBody Pedido pedido){
         USERSERVICE.actualizarEstado(pedido);
         return pedido;

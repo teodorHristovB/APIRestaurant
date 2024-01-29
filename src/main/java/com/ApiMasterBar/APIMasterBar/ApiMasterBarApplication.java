@@ -25,6 +25,4 @@ public class ApiMasterBarApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiMasterBarApplication.class, args);
 	}
-
-
 }
